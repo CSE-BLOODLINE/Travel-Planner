@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <header class="bg-indigo-600 text-white py-6 shadow-md">
+            <div class="container mx-auto px-4">
+                <h1 class="text-3xl font-bold">AI Travel Planner</h1>
+                <p class="mt-2">Your personalized travel itinerary generator</p>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-6" id="travelFormContainer">
+                        <h2 class="text-xl font-semibold mb-4">Travel Preferencesx</h2>
+                        <form id="travelForm">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="destination">Destination</label>
+                                <input type="text" id="destination" name="destination" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Where do you want to go?">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Travel Dates</label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm text-gray-500 mb-1">Start Date</label>
+                                        <input type="date" id="startDate" name="startDate"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-500 mb-1">End Date</label>
+                                        <input type="date" id="endDate" name="endDate"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="travelers">Number of Travelers</label>
+                                <select id="travelers" name="travelers"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5+</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Budget</label>
+                                <div class="flex space-x-4">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="budget" value="low" class="form-radio text-indigo-600">
+                                        <span class="ml-2">Budget</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="budget" value="medium" class="form-radio text-indigo-600" checked>
+                                        <span class="ml-2">Mid-range</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="budget" value="high" class="form-radio text-indigo-600">
+                                        <span class="ml-2">Luxury</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Travel Style</label>
+                                <div class="flex space-x-4">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="travelStyle" value="fast" class="form-radio text-indigo-600">
+                                        <span class="ml-2">Fast-paced</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="travelStyle" value="balanced" class="form-radio text-indigo-600" checked>
+                                        <span class="ml-2">Balanced</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="travelStyle" value="relaxed" class="form-radio text-indigo-600">
+                                        <span class="ml-2">Relaxed</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Interests (Select up to 3)</label>
+                                <div class="grid grid-cols-2 gap-2" id="interestsContainer">
+                                    <!-- Interests will be added by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="specialRequirements">Special Requirements</label>
+                                <textarea id="specialRequirements" name="specialRequirements" rows="3"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Dietary needs, accessibility requirements, etc."></textarea>
+                            </div>
+
+                            <button type="submit" id="generateBtn"
+                                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-magic mr-2"></i> Generate Itinerary
+                            </button>
+                        </form>
+                    </div>
+
+                    <div id="loadingSpinner" class="hidden mt-4 text-center">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+                        <p class="mt-2 text-gray-600">Creating your perfect itinerary...</p>
+                    </div>
+
+                    <div id="errorMessage" class="hidden mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded"></div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6 mt-8">
+                        <h3 class="text-lg font-semibold mb-3">Travel Tips</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                                <span>Be specific about your interests for better recommendations</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                                <span>Include any dietary restrictions or accessibility needs</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                                <span>For multi-city trips, mention all destinations in requirements</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <div id="itineraryContainer">
+                        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                            <h2 class="text-xl font-semibold text-gray-700">Your Personalized Itinerary Awaits</h2>
+                            <p class="mt-2 text-gray-600">
+                                Fill out the travel preferences form to generate your AI-powered travel plan.
+                            </p>
+                            <div class="mt-6">
+                                <svg class="w-24 h-24 mx-auto text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-gray-800 text-white py-6 mt-12">
+            <div class="container mx-auto px-4 text-center">
+                <p>© <span id="currentYear"></span> AI Travel Planner. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
